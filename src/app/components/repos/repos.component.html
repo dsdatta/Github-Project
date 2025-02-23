@@ -1,0 +1,44 @@
+<p-toast></p-toast>
+<div>
+    <!-- Search criterias -->
+    <table style="padding: 15px;">
+        <tr>
+            <label class="font margin-right">Search repositories: </label> <input [formControl]="searchControl" pInputText style="margin-right: 10px;width: 550px;" placeholder="Search repositories"  (ngModelChange)="handleValueChange()"/>
+            <label class="font margin-right">Language: </label> <input [formControl]="languageControl" pInputText style="margin-right: 10px;" placeholder="Language" (ngModelChange)="handleValueChange()"/>
+            <label class="font margin-right">Stars: </label> <input [formControl]="starsControl" pInputText style="margin-right: 10px;width: 125px;" placeholder="Min Stars" type="number" (ngModelChange)="handleValueChange()"/>
+        </tr>
+    </table>
+  </div>
+<br>
+<br>
+<!-- Loading animation -->
+  <p-progress-spinner *ngIf="loading" ariaLabel="loading" animationDuration=".5s" [ngStyle]="{ 'display': 'flex', 'justify-content': 'center', 'align-items': 'center' }"/>
+  
+  <!--Repositories search result table area -->
+  <div class="card" *ngIf="!loading && searchControl.dirty">
+
+    <h3 class="panel-title"><i class="pi pi-list"></i> Repositories Total :<span class="label label-success">{{totalCount}}</span></h3>
+
+    <p-table [value]="repositories" class="rowZebra" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th class="table-head text-center">Avatar</th>
+                <th class="table-head text-center">Repository name</th>
+                <th class="table-head text-center">Created at</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-repo>
+            <tr (click)="navigateToCommits(repo.owner.login, repo.name)">
+                <td class="text-center"><img [src]="repo.owner.avatar_url" width="40" /></td>
+                <td class="text-center">{{ repo.name }}</td>
+                <td class="text-center">{{ repo.created_at | date }}</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="3">No result found.</td>
+            </tr>
+          </ng-template>
+    </p-table>
+</div>

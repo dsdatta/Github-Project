@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<!-- Commits table area -->
+<h3 class="panel-title"><i class="pi pi-list"></i> Commits Total :<span class="label label-success">{{totalCount}}</span></h3>
+  <div class="card">   
+    <p-table [value]="commits" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th class="table-head text-center">Commit Author</th>
+                <th class="table-head text-center" style="width: 15%;">Url Link</th>
+                <th class="table-head text-center" style="width: 60%;">Commit Message</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-commit>
+            <tr>
+                <td class="text-center">{{ commit.commit.author.name }}</td>
+                <td class="text-center"><a [href]="commit.html_url" target="_blank">View Commit</a></td>
+                <td>{{ commit.commit.message }}</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="3">No result found.</td>
+            </tr>
+          </ng-template>
+    </p-table>
+    
+    
+  </div>
